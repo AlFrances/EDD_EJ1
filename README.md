@@ -2,8 +2,17 @@
 
 Java + HTML application that performs **addition, subtraction, multiplication and powers** using integers of up to 5 digits (-99999 to 99999).
 
-- `Calculadora.java` → backend (console version)
-- `index.html` → frontend (web version, open it in a browser)
+- `Calculadora.java` → backend: a Java HTTP server (port 8080) that serves the web page and performs the operations
+- `index.html` → frontend: the calculator form, which sends the numbers to the Java server
+
+## How to run it
+
+```bash
+javac Calculadora.java
+java Calculadora
+```
+
+Then open http://localhost:8080 in the browser. Stop the server with Ctrl+C.
 
 Author: AlFrances
 
@@ -86,6 +95,37 @@ git push origin main
 
 # 13. Show the history as a graph
 git log --oneline --graph --all
+
+# 14. Backend: turn Calculadora.java into a Java server (like the teacher's demo)
+git checkout backend
+git status
+git add Calculadora.java
+git commit -m "Add Java server to the calculator"
+git push origin backend
+
+# 15. Frontend: make index.html send the form to the Java server
+git checkout frontend
+git status
+git add index.html
+git commit -m "Connect calculator form to Java server"
+git push origin frontend
+
+# (On GitHub: Pull request backend -> main, merged)
+# (On GitHub: Pull request frontend -> main, merged)
+
+# 16. Download the merges into main
+git checkout main
+git pull origin main
+
+# 17. Test the application
+javac Calculadora.java
+java Calculadora
+
+# 18. Update the README on main
+git status
+git add README.md
+git commit -m "Update README with server and new commands"
+git push origin main
 ```
 
 ### What each command does
@@ -103,3 +143,5 @@ git log --oneline --graph --all
 - **git pull**: downloads and merges changes from GitHub into the current branch.
 - **Pull Request**: a GitHub request to merge one branch into another; once accepted, it creates a merge commit.
 - **git log --graph**: shows the commit and branch history.
+- **javac**: compiles a `.java` file into a `.class` file.
+- **java**: runs the compiled Java program (here, it starts the server).
