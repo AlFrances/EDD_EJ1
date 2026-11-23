@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 400px; margin: 40px auto; }
+        input, select, button { width: 100%; padding: 8px; margin: 6px 0; box-sizing: border-box; }
+        #resultado { margin-top: 12px; font-weight: bold; word-break: break-all; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Calculadora</h1>
+    <!-- Solo se permiten enteros entre -99999 y 99999 -->
+    <label>Primer número</label>
+    <input type="number" id="numero1" min="-99999" max="99999" step="1">
+
+    <label>Operación</label>
+    <select id="operacion">
+        <option value="suma">Suma (+)</option>
+        <option value="resta">Resta (-)</option>
+        <option value="multiplicacion">Multiplicación (x)</option>
+        <option value="potencia">Potencia (^)</option>
+    </select>
+
+    <label>Segundo número</label>
+    <input type="number" id="numero2" min="-99999" max="99999" step="1">
+
+    <button onclick="calcular()">Calcular</button>
+    <div id="resultado"></div>
+
+    <script>
+        // Comprueba que el texto es un entero de 5 dígitos como máximo
+        function esValido(texto) {
+            return /^-?\d{1,5}$/.test(texto.trim());
+        }
+
+        // Lee los números, comprueba que son válidos y hace la operación
+        function calcular() {
+            const texto1 = document.getElementById("numero1").value;
+            const texto2 = document.getElementById("numero2").value;
+            const operacion = document.getElementById("operacion").value;
+            const salida = document.getElementById("resultado");
+
+            if (!esValido(texto1) || !esValido(texto2)) {
+                salida.className = "error";
+                salida.textContent = "Error: introduce enteros entre -99999 y 99999.";
+                return;
+            }
+
+            // BigInt evita errores de precisión con resultados grandes
+            const a = BigInt(texto1);
+            const b = BigInt(texto2);
+            let resultado;
+
+            if (operacion === "suma") resultado = a + b;
+            else if (operacion === "resta") resultado = a - b;
+            else if (operacion === "multiplicacion") resultado = a * b;
+            else if (operacion === "potencia") {
+                if (b < 0n) {
+                    salida.className = "error";
+                    salida.textContent = "Error: el exponente no puede ser negativo.";
+                    return;
+                }
+                resultado = a ** b;
+            }
+
+            salida.className = "";
+            salida.textContent = "Resultado: " + resultado.toString();
+        }
+    </script>
+</body>
+</html>
